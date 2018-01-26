@@ -1,0 +1,11 @@
+.DS_Store
+.DS_Store?
+.Trashes
+ehthumbs.db
+Thumbs.db
+node_modules
+build
+.module-cache
+npm-debug.log
+logs
+*.log

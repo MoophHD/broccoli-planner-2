@@ -1,0 +1,77 @@
+{
+  "name": "webpack-react-redux-boilerplate",
+  "version": "1.0.0",
+  "description": "Webpack 3 React, Redux and Sass boilerplate",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "clean": "rimraf build",
+    "lint": "eslint src || true",
+    "test": "jest ./tests --setupTestFrameworkScriptFile=raf/polyfill",
+    "dev": "webpack-dashboard -t 'Webpack Dashboard' -- webpack-dev-server",
+    "build": "npm run clean && webpack --config webpack.production.config.js --progress --profile --colors",
+    "deploy": "npm run build && cp now.json ./build && now ./build --public --static",
+    "alias": "cp now.json ./build && cd ./build && now alias",
+    "deploy-production": "npm run build && cp now.production.json ./build/now.json && now ./build --public --static",
+    "alias-production": "cp now.production.json ./build/now.json && cd ./build && now alias"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:thekeogh/webpack-react-redux.git"
+  },
+  "keywords": [
+    "react",
+    "webpack3",
+    "boilerplate",
+    "redux",
+    "sass"
+  ],
+  "author": "Steve McKeogh & mooph",
+  "bugs": {
+    "url": "https://github.com/thekeogh/webpack-react-redux/issues"
+  },
+  "homepage": "https://github.com/thekeogh/webpack-react-redux/",
+  "devDependencies": {
+    "autoprefixer": "^7.2.1",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "dotenv-webpack": "^1.5.4",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.5.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^21.2.1",
+    "node-sass": "^4.7.2",
+    "open-browser-webpack-plugin": "0.0.5",
+    "postcss-loader": "^2.0.9",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.9.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-dev-server": "^2.9.5"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0",
+    "react-hot-loader": "^3.1.2",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6"
+  }
+}
