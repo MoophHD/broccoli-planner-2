@@ -29,12 +29,26 @@ function rebuildChuncks(ids, byid, from) {
       from.minute(roundedUp).seconds(0);
     } 
 
-    console.log(from.toString());
+    let anchorFrom = from;
 
     ids.forEach((id) => {
-      let chunck = byId[id];
+      let chunck = byid[id];
       let dur = chunck.dur;
       let name = chunck.name;
+
+      // two digits == minutes, one digit == part of hour
+      if (/\.\d{2}/.test(dur)) {
+          dur = 60*~~(dur)+dur%1*100;
+      } else {
+          dur = 60*dur;
+      }
+      
+      let anchorTo = anchorFrom.clone().add(dur, 'minutes');
+
+      byid[id].from = anchorFrom;
+      byid[id].to = anchorTo;
+
+      anchorFrom = anchorTo;
     });
 
     return {ids, byid}
