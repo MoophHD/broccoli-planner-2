@@ -7,7 +7,7 @@ import * as s from './controller.scss';
 
 const initialId = 0;
 const reg = {
-    name: /.+?(?=\ \d)/,
+    name: /.+/,
     dur: /\d{1,2}(\.\d{1,2})?/g,
     value: /\d{1}/
 }
@@ -19,9 +19,12 @@ class Controller extends Component {
         this.state = {
             value: ''
         }
+
+        this.oldByid = {}; 
     }
 
     checkValue() {
+        let rebuildChuncks = this.props.actions.rebuildChuncks;
         let value = this.state.value.slice();
 
         // let chuncks = {};
@@ -30,6 +33,7 @@ class Controller extends Component {
         let byid = {};
 
         value = value.split('\n');
+
 
         let line;
         for ( let i = 0; i < value.length; i++) {
@@ -40,12 +44,11 @@ class Controller extends Component {
             if (line.match(/\ /g) && line.match(/\ /g).length > 2){
 
                 line = line.split(' ');
-
+                
                 let name = line[0].match(reg.name);
                 let dur = line[1].match(reg.dur);
                 let chunckValue = line[2].match(reg.value);
                 let comment = line.slice(3).join('');
-
                 if (!name
                 || !dur
                 || !chunckValue
@@ -60,7 +63,14 @@ class Controller extends Component {
                 }
             }
         }
+        
+        // diff checker
+        if (JSON.stringify(this.oldByid) == JSON.stringify(byid)) {
+            return;
+        }
+        this.oldByid = byid;
 
+        rebuildChuncks(ids, byid);
     }
 
     handleChange(value) {
@@ -73,12 +83,26 @@ class Controller extends Component {
                 <textarea 
                     value={this.state.value}
                     onChange={(e) => this.handleChange(e.target.value)} 
-                    class={s.input}/>
+                    className={s.input}/>
             </div>
         )
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        
+    }
+}
+  
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch) 
+    }
+}
+  
+
+
 Controller.PropTypes = {};
 
-export default Controller;
+export default connect(mapStateToProps, mapDispatchToProps)(Controller);
