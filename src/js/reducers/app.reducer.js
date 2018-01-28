@@ -1,5 +1,8 @@
 import moment from 'moment';
-import { REBUILD_CHUNCKS, DECREASE } from '../constants/app.constant';
+import { 
+  REBUILD_CHUNCKS,
+  SET_FROM_TIME,
+  SET_TO_TIME  } from '../constants/app.constant';
 
 const initialState = {
   from: '',
@@ -11,6 +14,10 @@ const initialState = {
 let byid, ids;
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_FROM_TIME: 
+      return { ...state, from: action.payload }
+    case SET_TO_TIME: 
+      return { ...state, to: action.payload }
     case REBUILD_CHUNCKS:
      ({byid, ids} = rebuildChuncks(action.ids, action.byid, state.from));
       return { ...state,

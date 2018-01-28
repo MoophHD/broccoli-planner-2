@@ -61,6 +61,8 @@ class Controller extends Component {
                     value: chunckValue[0],
                     comment: comment
                 }
+
+                tempId++;
             }
         }
         

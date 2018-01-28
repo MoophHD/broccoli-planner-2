@@ -17,6 +17,14 @@ class TimePanel extends Component {
     }
 
     buildMoment(buildFrom) {
+        let now = moment();
+        let period;
+
+        if ((/(am|pm)/gi).test(buildFrom)) {
+            
+        } else {
+            period = (now.get("hours") < 12) ? "AM" : "PM";
+        }
         // REBUILD IT
         return buildFrom;
     }
