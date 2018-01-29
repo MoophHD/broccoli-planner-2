@@ -6,8 +6,15 @@ import '../scss/app';
 import Controller from './components/Controller';
 import TimePanel from './components/TimePanel';
 import ChunkContainer from './components/ChunkContainer';
+import Cookies from 'js-cookie';
 
-const store = configureStore({});
+//grab cookies
+const store = configureStore(
+  {memory: 
+    { lastValue: Cookies.get('lastValue'),
+      lastFrom: Cookies.get('lastFrom'),
+      lastTo: Cookies.get('lastTo')} }
+);
 
 export default class App extends Component {
   render() {

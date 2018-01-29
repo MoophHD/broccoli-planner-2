@@ -2,15 +2,17 @@ import React, { Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/app.action';
+import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class TimePanel extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
-            fromVal: '',
-            toVal: ''
+            fromVal: props.lastCookiesFrom,
+            toVal: props.lastCookiesTo
         }
 
         this.last = {
@@ -20,6 +22,26 @@ class TimePanel extends Component {
 
         this.handleFromSubmit = this.handleFromSubmit.bind(this);
         this.handleToSubmit = this.handleToSubmit.bind(this);
+    }
+
+    componentDidMount() {
+
+        // update last cookies
+        window.addEventListener('beforeunload', () => this.handleUnload());
+ 
+            
+        // build chuncks from cookies value
+        this.handleFromSubmit();
+        this.handleToSubmit();
+    }
+
+    handleUnload() {
+        const actions = this.props.memoryActions;
+        let from = this.state.fromVal;
+        let to = this.state.toVal;
+
+        if (from) actions.setFrom(from);
+        if (to) actions.setTo(to);
     }
 
     buildMoment(buildFrom) {
@@ -93,6 +115,7 @@ class TimePanel extends Component {
                     <span>from</span>
                     <input 
                         //select the text inside
+                        value={this.state.fromVal}
                         onFocus={(e) => e.target.select()}
                         onBlur={this.handleFromSubmit}
                         onChange={(e) => this.handleFromChange(e.target.value)}
@@ -102,6 +125,7 @@ class TimePanel extends Component {
                 <div>
                     <span>to</span>
                     <input 
+                        value={this.state.toVal}
                         onFocus={(e) => e.target.select()}
                         onBlur={this.handleToSubmit}
                         onChange={(e) => this.handleToChange(e.target.value)}
@@ -114,14 +138,21 @@ class TimePanel extends Component {
 
 function mapStateToProps(state) {
     return {
-        
+        lastCookiesFrom: state.memory.lastFrom,
+        lastCookiesTo: state.memory.lastTo
     }
 }
   
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actions, dispatch) 
+        actions: bindActionCreators(actions, dispatch),
+        memoryActions: bindActionCreators(memoryActions, dispatch)
     }
+}
+
+TimePanel.PropTypes = {
+    lastCookiesFrom: PropTypes.string,
+    lastCookiesTo: PropTypes.string
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimePanel);

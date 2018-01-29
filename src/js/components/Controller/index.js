@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux' 
 import { connect } from 'react-redux'
 import * as actions from '../../actions/app.action';
+import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import * as s from './controller.scss';
 
@@ -16,11 +17,19 @@ class Controller extends Component {
     constructor(props) {
         super(props);
 
+        // last cookies
         this.state = {
-            value: ''
+            value: props.lastValue
         }
 
         this.oldByid = {}; 
+    }
+
+    componentDidMount() {
+        // update last cookies
+        window.addEventListener('beforeunload', () => this.props.memoryActions.setValue(this.state.value));
+        // build chuncks from cookies value
+        this.checkValue();
     }
 
     checkValue() {
@@ -93,18 +102,19 @@ class Controller extends Component {
 
 function mapStateToProps(state) {
     return {
-        
+        lastValue: state.memory.lastValue
     }
 }
   
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actions, dispatch) 
+        actions: bindActionCreators(actions, dispatch),
+        memoryActions: bindActionCreators(memoryActions, dispatch),
     }
 }
   
-
-
-Controller.PropTypes = {};
+Controller.PropTypes = {
+    lastValue: PropTypes.string
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controller);
