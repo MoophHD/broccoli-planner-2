@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Provider} from 'react-redux';
 import configureStore from './store';
 
-import '../scss/app';
+import * as s from '../scss/app';
 import Controller from './components/Controller';
 import TimePanel from './components/TimePanel';
 import ChunkContainer from './components/ChunkContainer';
@@ -20,12 +20,14 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div>
-          <div>
+        <div className={s.container}>
+          <div className={s.controll}>
             <TimePanel />
             <Controller />
           </div>
+          <div className={s.chuncks}>
             <ChunkContainer />
+          </div>
         </div>
       </Provider>
     );

@@ -1,0 +1,13 @@
+.container { 
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.timeBorder:first-child {
+    margin-right: 15px;
+}
+
+.input {
+    width: 150px;
+}

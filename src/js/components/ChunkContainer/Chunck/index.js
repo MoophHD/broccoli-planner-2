@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import * as s from './chunck.scss';
 
 class Chunk extends Component {
     render() {
@@ -13,12 +14,16 @@ class Chunk extends Component {
         to = to.format('h:mm A');;
         
         return(
-            <div>
-                <div>{value}</div>
-                <div>{name}</div>
-                <div>{comment}</div>
-                <div>{from}</div>
-                <div>{to}</div>
+            <div className={s.wrapper}>
+                <div className={s.container}>
+                    <div>{value}</div>
+                    <div>{name}</div>
+                    <div className={s.comment}>{comment}</div>
+                    <div className={s.fromTo}>
+                        <div>{from}</div>
+                        <div>{to}</div>
+                    </div>
+                </div>
             </div>
         )
     }

@@ -1,0 +1,16 @@
+.wrapper {
+    padding: 5px;
+    background-color: lightgrey;
+}
+
+.container { 
+    display: grid;
+    grid-template-columns: 25px 75px auto 200px;
+    max-width: 600px;
+}
+
+.fromTo {
+    display: flex;
+    justify-content: space-between;
+}
+

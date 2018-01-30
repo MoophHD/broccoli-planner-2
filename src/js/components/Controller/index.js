@@ -19,7 +19,7 @@ class Controller extends Component {
 
         // last cookies
         this.state = {
-            value: props.lastValue
+            value: props.lastValue || ''
         }
 
         this.oldByid = {}; 
@@ -90,7 +90,7 @@ class Controller extends Component {
 
     render(){
         return(
-            <div>
+            <div className={s.container}>
                 <textarea 
                     value={this.state.value}
                     onChange={(e) => this.handleChange(e.target.value)} 

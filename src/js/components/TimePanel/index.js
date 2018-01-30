@@ -5,6 +5,7 @@ import * as actions from '../../actions/app.action';
 import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import * as s from './timePanel.scss';
 
 class TimePanel extends Component {
     constructor(props) {
@@ -110,11 +111,11 @@ class TimePanel extends Component {
 
     render() {
         return(
-            <div>
-                <div>
+            <div className={s.container}>
+                <div className={s.timeBorder}>
                     <span>from</span>
                     <input 
-                        //select the text inside
+                        className={s.input}
                         value={this.state.fromVal}
                         onFocus={(e) => e.target.select()}
                         onBlur={this.handleFromSubmit}
@@ -122,9 +123,10 @@ class TimePanel extends Component {
                         onKeyPress={(e) => this.checkInputKeyDown(e)}
                         onKeyPress={(e) => { if (e.key == "Enter") this.handleFromSubmit()}}></input>
                 </div>              
-                <div>
+                <div className={s.timeBorder}>
                     <span>to</span>
                     <input 
+                        className={s.input}
                         value={this.state.toVal}
                         onFocus={(e) => e.target.select()}
                         onBlur={this.handleToSubmit}

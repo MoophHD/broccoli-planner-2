@@ -11,3 +11,23 @@
 
 @import './base';
 @import './globals';
+
+body {
+    padding: 10px;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.controll {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+.chuncks {
+    flex: 1;
+}
