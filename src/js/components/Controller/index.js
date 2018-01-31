@@ -57,7 +57,7 @@ class Controller extends Component {
                 let name = line[0].match(reg.name);
                 let dur = line[1].match(reg.dur);
                 let chunckValue = line[2].match(reg.value);
-                let comment = line.slice(3).join('');
+                let comment = line.slice(3).join(' ');
                 if (!name
                 || !dur
                 || !chunckValue

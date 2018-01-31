@@ -6,11 +6,13 @@ import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as s from './timePanel.scss';
+import TimeInput from './components/TimeInput';
+
+const format = 'h : mm A';
 
 class TimePanel extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             fromVal: props.lastCookiesFrom,
             toVal: props.lastCookiesTo
@@ -32,8 +34,9 @@ class TimePanel extends Component {
  
             
         // build chuncks from cookies value
-        this.handleFromSubmit();
-        this.handleToSubmit();
+
+        // this.setState(() => ({ fromVal: this.setState.fr.format(format) }))
+        // this.setState(() => ({ fromVal: momentObj.format(format) }))
     }
 
     handleUnload() {
@@ -53,18 +56,19 @@ class TimePanel extends Component {
         let period;
         
         if ((/(am|pm)/gi).test(buildFrom)) {
-            peroid = str.match(/(am|pm)/gi)[0].toUpperCase();
+            period = buildFrom.match(/(am|pm)/gi)[0].toUpperCase();
         } else {
             period = (now.get("hours") < 12) ? "AM" : "PM";
         }
-        let splitter = /(\.|,)/;
+
+        let splitters = /(\.|,|(\ :\ ))/g;
+        let splitter = splitters.test(buildFrom) ? buildFrom.match(splitters)[0] : null;
         
         // first digists
         let hr = buildFrom.match(/\d+/g)[0];
-
         // split with a regexp argument throws split elems for some reason
-        // if contains a drop or comma split and get digits from the third element ( 1.15 => [1, (.|,), 15] => 15)
-        let min = splitter.test(buildFrom) ? buildFrom.split(splitter)[2].match(/\d+/)[0] : 0;
+        // if contains a drop or comma split and get digits from the second element ( 1.15 => [1, 15] => 15)
+        let min = splitter ? buildFrom.split(splitter)[1].match(/\d+/)[0] : 0;
 
         // decimal
         if (min.toString().length < 2) {
@@ -83,11 +87,16 @@ class TimePanel extends Component {
         const { setFromTime } = this.props.actions;
 
         let from = this.state.fromVal;
-        
+
         if (from == this.last.from) return;
         this.last.from = from;
 
-        setFromTime(this.buildMoment(from));
+        let momentObj = this.buildMoment(from);
+
+        //format current time
+        this.setState(() => ({ fromVal: momentObj.format(format) }))
+
+        setFromTime(momentObj);
     }
 
     handleToSubmit() {
@@ -97,8 +106,13 @@ class TimePanel extends Component {
 
         if (to == this.last.to) return;
         this.last.to = to;
+
+        let momentObj = this.buildMoment(to);
+
+        //format current time
+        this.setState(() => ({ toVal: momentObj.format(format) }))
         
-        setToTime(this.buildMoment(to));
+        setToTime(momentObj);
     }
 
     handleFromChange(val) {
@@ -112,7 +126,22 @@ class TimePanel extends Component {
     render() {
         return(
             <div className={s.container}>
-                <div className={s.timeBorder}>
+                <TimeInput 
+                    title={'from'}
+                    value={this.state.fromVal}
+                    onBlur={() => this.handleFromSubmit()}
+                    onChange={(val) => this.handleFromChange(val)}
+                    onKeyPress={() => this.handleFromSubmit()}
+                    />
+                <TimeInput 
+                    title={'to'}
+                    value={this.state.toVal}
+                    onBlur={() => this.handleToSubmit()}
+                    onChange={(val) => this.handleToChange(val)}
+                    onKeyPress={() => this.handleToSubmit()}
+                />
+
+                {/* <div className={s.timeBorder}>
                     <span>from</span>
                     <input 
                         className={s.input}
@@ -120,7 +149,6 @@ class TimePanel extends Component {
                         onFocus={(e) => e.target.select()}
                         onBlur={this.handleFromSubmit}
                         onChange={(e) => this.handleFromChange(e.target.value)}
-                        onKeyPress={(e) => this.checkInputKeyDown(e)}
                         onKeyPress={(e) => { if (e.key == "Enter") this.handleFromSubmit()}}></input>
                 </div>              
                 <div className={s.timeBorder}>
@@ -132,7 +160,8 @@ class TimePanel extends Component {
                         onBlur={this.handleToSubmit}
                         onChange={(e) => this.handleToChange(e.target.value)}
                         onKeyPress={(e) => { if (e.key == "Enter") this.handleToSubmit()}}></input>
-                </div>
+                </div> */}
+  
             </div>
         )
     }

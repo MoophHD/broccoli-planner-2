@@ -11,7 +11,7 @@ class Chunk extends Component {
         let { from, to } = this.props;
 
         from = from.format('h:mm A');
-        to = to.format('h:mm A');;
+        to = to.format('h:mm A');
         
         return(
             <div className={s.wrapper}>
