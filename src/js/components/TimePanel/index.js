@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as s from './timePanel.scss';
 import TimeInput from './components/TimeInput';
+import Spare from './components/Spare';
 
 const format = 'h : mm A';
-
 class TimePanel extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +32,9 @@ class TimePanel extends Component {
         // update last cookies
         window.addEventListener('beforeunload', () => this.handleUnload());
  
-            
+        this.handleFromSubmit();
+        this.handleToSubmit();
+        
         // build chuncks from cookies value
 
         // this.setState(() => ({ fromVal: this.setState.fr.format(format) }))
@@ -94,7 +96,7 @@ class TimePanel extends Component {
         let momentObj = this.buildMoment(from);
 
         //format current time
-        this.setState(() => ({ fromVal: momentObj.format(format) }))
+        this.setState(() => ({ fromVal: momentObj && momentObj.format(format) }))
 
         setFromTime(momentObj);
     }
@@ -110,7 +112,7 @@ class TimePanel extends Component {
         let momentObj = this.buildMoment(to);
 
         //format current time
-        this.setState(() => ({ toVal: momentObj.format(format) }))
+        this.setState(() => ({ toVal: momentObj && momentObj.format(format) }))
         
         setToTime(momentObj);
     }
@@ -140,28 +142,7 @@ class TimePanel extends Component {
                     onChange={(val) => this.handleToChange(val)}
                     onKeyPress={() => this.handleToSubmit()}
                 />
-
-                {/* <div className={s.timeBorder}>
-                    <span>from</span>
-                    <input 
-                        className={s.input}
-                        value={this.state.fromVal}
-                        onFocus={(e) => e.target.select()}
-                        onBlur={this.handleFromSubmit}
-                        onChange={(e) => this.handleFromChange(e.target.value)}
-                        onKeyPress={(e) => { if (e.key == "Enter") this.handleFromSubmit()}}></input>
-                </div>              
-                <div className={s.timeBorder}>
-                    <span>to</span>
-                    <input 
-                        className={s.input}
-                        value={this.state.toVal}
-                        onFocus={(e) => e.target.select()}
-                        onBlur={this.handleToSubmit}
-                        onChange={(e) => this.handleToChange(e.target.value)}
-                        onKeyPress={(e) => { if (e.key == "Enter") this.handleToSubmit()}}></input>
-                </div> */}
-  
+                <Spare />
             </div>
         )
     }

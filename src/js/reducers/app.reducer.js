@@ -11,7 +11,7 @@ const initialState = {
   byid: {}
 };
 
-let byid, ids;
+let byid, ids, spare;
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_FROM_TIME: 
@@ -19,8 +19,9 @@ export default (state = initialState, action) => {
     case SET_TO_TIME: 
       return { ...state, to: action.payload }
     case REBUILD_CHUNCKS:
-     ({byid, ids} = rebuildChuncks(action.ids, action.byid, state.from));
+     ({byid, ids, spare} = rebuildChuncks(action.ids, action.byid, state.from, state.to));
       return { ...state,
+                spare: spare,
                 ids: ids,
                 byid: byid};
     default:
@@ -28,7 +29,7 @@ export default (state = initialState, action) => {
   }
 };
 
-function rebuildChuncks(ids, byid, from) {
+function rebuildChuncks(ids, byid, from, to) {
     //if given no start time, take system time and round it to five minutes
     if (!from) { 
       from = moment();
@@ -58,5 +59,15 @@ function rebuildChuncks(ids, byid, from) {
       anchorFrom = anchorTo;
     });
 
-    return {ids, byid}
+    let spare = buildSpare(anchorFrom, to);
+
+    return {ids, byid, spare}
+}
+
+function buildSpare(start, end) {
+  if (start && end) {
+    return moment(end.diff(start)).format("h[h]m[m]");
+  } else {
+    return '';
+  }
 }
