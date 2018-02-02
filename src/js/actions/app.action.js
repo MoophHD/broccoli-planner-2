@@ -1,7 +1,8 @@
 import { 
   REBUILD_CHUNCKS,
   SET_FROM_TIME,
-  SET_TO_TIME } from '../constants/app.constant';
+  SET_TO_TIME,
+  SET_CURRENT} from '../constants/app.constant';
 
 export function rebuildChuncks(ids, byid) {
   return {
@@ -24,3 +25,11 @@ export function setToTime(time) {
     payload: time
   };
 }
+
+export function setCurrent(id) {
+  return {
+    type: SET_CURRENT,
+    payload: id
+  };
+}
+

@@ -18,6 +18,7 @@ class TimePanel extends Component {
             toVal: props.lastCookiesTo
         }
 
+        //stringified moments
         this.last = {
             from: '',
             to: ''
@@ -81,6 +82,7 @@ class TimePanel extends Component {
         now.hour(hr);
         now.minute(min);
         now.seconds(0);
+        now.milliseconds(0);
 
         return now;
     }
@@ -90,15 +92,17 @@ class TimePanel extends Component {
 
         let from = this.state.fromVal;
 
-        if (from == this.last.from) return;
-        this.last.from = from;
+        let momentFrom = this.buildMoment(from);
+        
+        if (JSON.stringify(momentFrom) == this.last.from) return;
 
-        let momentObj = this.buildMoment(from);
+        this.last.from = JSON.stringify(momentFrom);
+        
 
         //format current time
-        this.setState(() => ({ fromVal: momentObj && momentObj.format(format) }))
+        this.setState(() => ({ fromVal: momentFrom && momentFrom.format(format) }))
 
-        setFromTime(momentObj);
+        setFromTime(momentFrom);
     }
 
     handleToSubmit() {
@@ -106,15 +110,17 @@ class TimePanel extends Component {
 
         let to = this.state.toVal;
 
-        if (to == this.last.to) return;
-        this.last.to = to;
 
-        let momentObj = this.buildMoment(to);
+        let momentTo = this.buildMoment(to);
 
-        //format current time
-        this.setState(() => ({ toVal: momentObj && momentObj.format(format) }))
+        if (JSON.stringify(momentTo) == this.last.to) return;
         
-        setToTime(momentObj);
+        this.last.to = JSON.stringify(momentTo);
+        
+        //format current time
+        this.setState(() => ({ toVal: momentTo && momentTo.format(format) }))
+        
+        setToTime(momentTo);
     }
 
     handleFromChange(val) {

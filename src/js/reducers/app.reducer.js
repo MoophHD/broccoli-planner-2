@@ -2,9 +2,11 @@ import moment from 'moment';
 import { 
   REBUILD_CHUNCKS,
   SET_FROM_TIME,
-  SET_TO_TIME  } from '../constants/app.constant';
+  SET_TO_TIME,
+  SET_CURRENT } from '../constants/app.constant';
 
 const initialState = {
+  active: -1,
   from: '',
   to: '',
   ids: [],
@@ -14,10 +16,22 @@ const initialState = {
 let byid, ids, spare;
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_CURRENT:
+      return { ...state, active: action.payload }
     case SET_FROM_TIME: 
-      return { ...state, from: action.payload }
+      ({byid, ids, spare} = rebuildChuncks(state.ids, state.byid, action.payload, state.to));
+      return { ...state,
+                spare: spare,
+                ids: ids,
+                byid: byid,
+                from: action.payload};
     case SET_TO_TIME: 
-      return { ...state, to: action.payload }
+      ({byid, ids, spare} = rebuildChuncks(state.ids, state.byid, state.from, action.payload));
+      return { ...state,
+                spare: spare,
+                ids: ids,
+                byid: byid,
+                to: action.payload};
     case REBUILD_CHUNCKS:
      ({byid, ids, spare} = rebuildChuncks(action.ids, action.byid, state.from, state.to));
       return { ...state,
@@ -58,7 +72,7 @@ function rebuildChuncks(ids, byid, from, to) {
 
       anchorFrom = anchorTo;
     });
-
+    
     let spare = buildSpare(anchorFrom, to);
 
     return {ids, byid, spare}
@@ -66,7 +80,7 @@ function rebuildChuncks(ids, byid, from, to) {
 
 function buildSpare(start, end) {
   if (start && end) {
-    return moment(end.diff(start)).format("h[h]m[m]");
+    return `${end.diff(start, 'hours')}h${end.diff(start, 'minutes')%60}m`
   } else {
     return '';
   }

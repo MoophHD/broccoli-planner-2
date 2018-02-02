@@ -1,3 +1,4 @@
 export const REBUILD_CHUNCKS = 'REBUILD_CHUNCKS';
 export const SET_FROM_TIME = 'CHANGE_FROM_TIME';
 export const SET_TO_TIME = 'CHANGE_TO_TIME';
+export const SET_CURRENT = 'SET_CURRENT';
