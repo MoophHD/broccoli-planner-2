@@ -69,6 +69,7 @@ class TimePanel extends Component {
         
         // first digists
         let hr = buildFrom.match(/\d+/g)[0];
+
         // split with a regexp argument throws split elems for some reason
         // if contains a drop or comma split and get digits from the second element ( 1.15 => [1, 15] => 15)
         let min = splitter ? buildFrom.split(splitter)[1].match(/\d+/)[0] : 0;
@@ -78,8 +79,10 @@ class TimePanel extends Component {
             // [0.]5 => [0.]30
             min = min * 6;
         }
-      
-        now.hour(hr);
+
+        let fixedhr = moment(`${hr} ${period}`, "h A").format('H');
+
+        now.hour(fixedhr);
         now.minute(min);
         now.seconds(0);
         now.milliseconds(0);
@@ -103,6 +106,8 @@ class TimePanel extends Component {
         this.setState(() => ({ fromVal: momentFrom && momentFrom.format(format) }))
 
         setFromTime(momentFrom);
+
+        // if (this.to) this.to.focus();
     }
 
     handleToSubmit() {
@@ -142,6 +147,7 @@ class TimePanel extends Component {
                     onKeyPress={() => this.handleFromSubmit()}
                     />
                 <TimeInput 
+                    ref={ el => this.to = el }
                     title={'to'}
                     value={this.state.toVal}
                     onBlur={() => this.handleToSubmit()}

@@ -4,18 +4,33 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as s from './chunck.scss';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+    margin-bottom: 15px;
+    background-color: ${props => props.active ? 'crimson' : 'lightgrey'};
+    color: ${props => props.active ? 'white' : '#313131'};
+`
+
+const Container = styled.div`
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 25px 75px auto 200px;
+    max-width: 600px;
+    background-color: ${props => props.active ? 'crimson' : 'none'};
+`
 
 class Chunk extends Component {
     render() {
-        const { name, comment, value } = this.props;
+        const { name, comment, value, id, active } = this.props;
         let { from, to } = this.props;
 
         from = from.format('h:mm A');
         to = to.format('h:mm A');
-        
         return(
-            <div className={s.wrapper}>
-                <div className={s.container}>
+            <Wrapper 
+                active={ id === active }>
+                <Container>
                     <div>{value}</div>
                     <div>{name}</div>
                     <div className={s.comment}>{comment}</div>
@@ -23,8 +38,8 @@ class Chunk extends Component {
                         <div>{from}</div>
                         <div>{to}</div>
                     </div>
-                </div>
-            </div>
+                </Container>
+            </Wrapper>
         )
     }
 }
@@ -36,7 +51,8 @@ function mapStateToProps(state, ownProps) {
         to: self.to,
         name: self.name,
         comment: self.comment,
-        value: self.value
+        value: self.value,
+        active: state.app.active
     }
 }
 

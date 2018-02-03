@@ -70,6 +70,8 @@ function rebuildChuncks(ids, byid, from, to) {
       byid[id].from = anchorFrom;
       byid[id].to = anchorTo;
 
+      byid[id]._id = id;
+
       anchorFrom = anchorTo;
     });
     
