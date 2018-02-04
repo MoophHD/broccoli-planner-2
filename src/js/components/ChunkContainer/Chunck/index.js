@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-    padding: 5px;
+    padding: 20px 5px;
     display: grid;
     grid-template-columns: 25px 75px auto 200px;
     max-width: 600px;
@@ -21,19 +21,40 @@ const Container = styled.div`
 `
 
 class Chunk extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hover: false
+        }
+    }
+    
+    onHover() {
+        this.setState(() => ({ hover: true }))
+    }
+
+    onUnhover() {
+        this.setState(() => ({ hover: false }))
+    }
+    
     render() {
+        const { hover } = this.state;
         const { name, comment, value, id, active } = this.props;
         let { from, to } = this.props;
-
+        let amIActive = id === active;
         from = from.format('h:mm A');
         to = to.format('h:mm A');
         return(
             <Wrapper 
-                active={ id === active }>
+                onMouseOver={() => this.onHover()}
+                onMouseLeave={() => this.onUnhover()}
+                active={ amIActive }>
                 <Container>
                     <div>{value}</div>
                     <div>{name}</div>
-                    <div className={s.comment}>{comment}</div>
+                    <div className={s.comment}> 
+                        {/* hide comment */}
+                        { hover || amIActive ? comment : '' }
+                    </div>
                     <div className={s.fromTo}>
                         <div>{from}</div>
                         <div>{to}</div>

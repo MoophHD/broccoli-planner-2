@@ -33,37 +33,47 @@ class ChunckContainer extends Component {
                     if ( id == active ) return;
                     
                     this.setActive(id);
-                })
+                },
+                () => {}
+            )
             }
         }
-        
-        //the only
-        if ( ids.length == 1) {
+
+        /* 
+            if the only or 
+            active id is missing being not undefined
+        */
+        if ( ids.length == 1 || (ids.indexOf(active) == -1 && active != -1) ) {
+            //check the 1st
             checkAround = byid[ids[0]];
-        } else if ( active !== ids.slice(-1)[0] ) {
-            // if not the last check the next
+        } else if ( active === ids.slice(-1)[0] ) {
+            // if last check last
+            checkAround = byid[active];
+        } else if ( active !== ids.slice(-1)[0] && active != -1 ) {
+            //if not last nor first and not undefined => check the next
             checkAround = byid[active + 1];
-            
         }
 
-        //the same id
-        if (this.lastCheckAroundId == checkAround._id) return;
+        if (!checkAround) return;
+
+
+        //is undefined or the same as current checkaround
+        if (!checkAround || this.lastCheckAroundId == checkAround._id) return;
         this.lastCheckAroundId = checkAround._id;
 
         if (this.interval) clearInterval(this.interval);
         this.interval = setInterval(
             () => this.check(checkAround)
-            // if active > fire action > clear self
+            // if active > fire action 
             // else > keep checking
             .then(
-                (id) => { this.setActive(id); }
+                (id) => { this.setActive(id); },
+                () => { this.setActive(-1); }
             ),
             CHECK_DELTA)
     }
 
     check(chunck) {
-        console.log('checking: ' + chunck._id);
-        // console.log(chunck);
         //checks if now is between the from-to of the given chunck
 
         // const { from, to } = this.last;
@@ -72,15 +82,15 @@ class ChunckContainer extends Component {
         return new Promise((res, rej) => {
             if (now.isBetween(chunck.from, chunck.to)) { 
                 return res(chunck._id);
-            } 
+            } else if (now.isAfter(chunck.to)) {
+                return rej();
+            }
         })
-
-    
-
     }
 
     setActive(id) {
         if ( id == this.props.active) return;
+
         this.props.actions.setCurrent(id);
     }
 
