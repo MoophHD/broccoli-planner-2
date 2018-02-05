@@ -64,8 +64,9 @@ class ChunckContainer extends Component {
         if (this.interval) clearInterval(this.interval);
         this.interval = setInterval(
             () => this.check(checkAround)
-            // if active > fire action 
-            // else > keep checking
+            // on res > fire setActive
+            // on rej  > set inactive
+            // on pass > keep checking
             .then(
                 (id) => { this.setActive(id); },
                 () => { this.setActive(-1); }

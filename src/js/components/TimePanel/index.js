@@ -107,7 +107,10 @@ class TimePanel extends Component {
 
         setFromTime(momentFrom);
 
-        // if (this.to) this.to.focus();
+        //jump to the 'to' input
+        if (this.to)  {
+            this.to.input.focus();
+        }
     }
 
     handleToSubmit() {

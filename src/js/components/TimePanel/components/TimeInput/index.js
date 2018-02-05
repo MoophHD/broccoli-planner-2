@@ -1,25 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import colors from '../../../../constants/colors';
 
-const Input = styled.input`
+const Field = styled.div`
+    position: relative;
     width: 150px;
+    padding: 0 5px;
+`
+const Input = styled.input`
+    transition: border-color .25s ease-out;
+    padding: 7.5px;
+    width: 100%;
+    background-color: inherit;
+
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 2px;
+    
+    border-color: ${colors.grey};
+
+    &:focus {
+        outline: none;
+        border-color: ${colors.yellow};
+    }
 `
 class TimeInput extends Component {
     render(){
         const { onChange, value, title, onBlur, onKeyPress } = this.props;
-
         return(
-            <div>
-                <span>{title}</span>
-                <Input 
+            <Field>
+                <span>
+                    <span>{title}</span>
+                </span>
+                <Input
+                    placeholder={title == 'from' ? 'e.g. 3.50am' : 'e.g. 4.50am'}
+                    innerRef={ el => { if (el) this.input = el}} 
                     onChange={(e) => onChange(e.target.value)}
                     value={value}
                     onFocus={(e) => e.target.select()}
                     onBlur={onBlur}
                     onKeyPress={ (e) => { if (e.key == "Enter") onKeyPress()} }
                 />
-            </div>
+            </Field>
         )
     }
 }

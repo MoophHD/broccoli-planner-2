@@ -6,10 +6,23 @@ import PropTypes from 'prop-types';
 
 
 const Wrapper = styled.div`
-    align-self: flex-end;
+    margin-left: auto;
 `
+
+const Title = styled.span`
+    display: block;
+    font-weight: bold;
+`
+
+const SpareValue = styled.span`
+    display: block;
+`
+
 const Spare = ({ spare }) => (
-    <Wrapper>{ spare }</Wrapper>
+    <Wrapper>
+        <Title>Spare</Title>
+        <SpareValue>{ spare ? spare : '~'}</SpareValue>
+    </Wrapper>
 )
 
 function mapStateToProps(state) {
