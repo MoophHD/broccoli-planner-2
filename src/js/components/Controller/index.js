@@ -5,6 +5,26 @@ import * as actions from '../../actions/app.action';
 import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import * as s from './controller.scss';
+import styled from 'styled-components';
+
+import colors from '../../constants/colors';
+const InputArea = styled.textarea`
+    background-color: ${colors.lightestgrey};
+    font-size: 1.2em;
+    line-height: 1.2;
+    font-weight: 300;
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 5px 10px;
+    resize: none;
+    border-radius: 2px;
+    transition: all ease .15s;
+    &:focus {
+        box-shadow: 0 0 0px 1.5px ${colors.yellow};
+    }
+`
+
 
 const initialId = 0;
 const reg = {
@@ -91,10 +111,10 @@ class Controller extends Component {
     render(){
         return(
             <div className={s.container}>
-                <textarea 
+                <InputArea 
+                    placeholder="e.g. unity 0.5 3 code stuff..."
                     value={this.state.value}
-                    onChange={(e) => this.handleChange(e.target.value)} 
-                    className={s.input}/>
+                    onChange={(e) => this.handleChange(e.target.value)}/>
             </div>
         )
     }

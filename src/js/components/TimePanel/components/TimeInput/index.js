@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import colors from '../../../../constants/colors';
 
 const Field = styled.div`
+    margin-right: 15px;
     position: relative;
     width: 150px;
     padding: 0 5px;
+    padding-bottom: 2.5px;
 `
 const Input = styled.input`
     transition: border-color .25s ease-out;
@@ -26,14 +28,17 @@ const Input = styled.input`
         border-color: ${colors.yellow};
     }
 `
+const Title = styled.span`
+    font-weight: bold;
+`
 class TimeInput extends Component {
     render(){
         const { onChange, value, title, onBlur, onKeyPress } = this.props;
         return(
             <Field>
-                <span>
-                    <span>{title}</span>
-                </span>
+                <Title>
+                    {title}
+                </Title>
                 <Input
                     placeholder={title == 'from' ? 'e.g. 3.50am' : 'e.g. 4.50am'}
                     innerRef={ el => { if (el) this.input = el}} 

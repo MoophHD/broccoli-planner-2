@@ -5,18 +5,24 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as s from './chunck.scss';
 import styled from 'styled-components';
+import colors from '../../../constants/colors';
 
 const Wrapper = styled.div`
+    transition: background-color ease-out .2s;
+    transition: height ease-out .3s;
     margin-bottom: 15px;
-    background-color: ${props => props.active ? 'crimson' : 'lightgrey'};
-    color: ${props => props.active ? 'white' : '#313131'};
+    background-color: ${props => props.active ? colors.yellow : colors.lightestgrey};
+    color: ${props => props.active ? colors.white : colors.darkgrey};
+    display: flex;
+    align-items: center;
 `
 
 const Container = styled.div`
-    padding: 20px 5px;
-    display: grid;
-    grid-template-columns: 25px 75px auto 200px;
-    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 7.5px;
     background-color: ${props => props.active ? 'crimson' : 'none'};
 `
 

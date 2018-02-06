@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux' 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as s from './chunckContainer.scss';
 import Chunck from './Chunck';
 import moment from 'moment';
 import * as actions from '../../actions/app.action';
+import styled from 'styled-components';
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+`
 
 const CHECK_DELTA = 1000; //ms
 
@@ -98,9 +104,9 @@ class ChunckContainer extends Component {
     render() {
         const { ids } = this.props;
         return(
-            <div className={s.container}>
+            <Container>
                 { ids.map((id, i) => (<Chunck id={id} key={`_chunck${id}${i}`}/>)) }
-            </div>
+            </Container>
         )
     }
 }

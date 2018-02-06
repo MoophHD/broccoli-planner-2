@@ -140,18 +140,20 @@ class TimePanel extends Component {
     }
 
     render() {
+        const { stateFrom, stateTo } = this.props;
+
         return(
             <div className={s.container}>
                 <TimeInput 
-                    title={'from'}
-                    value={this.state.fromVal}
+                    title={'From'}
+                    value={ this.state.fromVal }
                     onBlur={() => this.handleFromSubmit()}
                     onChange={(val) => this.handleFromChange(val)}
                     onKeyPress={() => this.handleFromSubmit()}
                     />
                 <TimeInput 
                     ref={ el => this.to = el }
-                    title={'to'}
+                    title={'To'}
                     value={this.state.toVal}
                     onBlur={() => this.handleToSubmit()}
                     onChange={(val) => this.handleToChange(val)}
@@ -164,9 +166,14 @@ class TimePanel extends Component {
 }
 
 function mapStateToProps(state) {
+    const memory = state.memory;
+    const app = state.app;
+
     return {
-        lastCookiesFrom: state.memory.lastFrom,
-        lastCookiesTo: state.memory.lastTo
+        lastCookiesFrom: memory.lastFrom,
+        lastCookiesTo: memory.lastTo,
+        stateFrom: app.from,
+        stateTo: app.to
     }
 }
   

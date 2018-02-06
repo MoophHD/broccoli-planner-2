@@ -44,11 +44,13 @@ export default (state = initialState, action) => {
 };
 
 function rebuildChuncks(ids, byid, from, to) {
+    let nativeFrom = from;
+
     //if given no start time, take system time and round it to five minutes
     if (!from) { 
       from = moment();
       const roundedUp = Math.ceil(moment(from).minute() / 5) * 5;
-      from.minute(roundedUp).seconds(0);
+      from.minute(roundedUp).seconds(0).milliseconds(0);
     } 
 
     let anchorFrom = from;
@@ -75,7 +77,8 @@ function rebuildChuncks(ids, byid, from, to) {
       anchorFrom = anchorTo;
     });
     
-    let spare = buildSpare(anchorFrom, to);
+    let spare = '';
+    if (nativeFrom) spare = buildSpare(anchorFrom, to);
 
     return {ids, byid, spare}
 }

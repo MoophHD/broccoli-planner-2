@@ -7,6 +7,7 @@ import Controller from './components/Controller';
 import TimePanel from './components/TimePanel';
 import ChunkContainer from './components/ChunkContainer';
 import Cookies from 'js-cookie';
+import styled from 'styled-components';
 
 //grab cookies
 const store = configureStore(
@@ -16,19 +17,37 @@ const store = configureStore(
       lastTo: Cookies.get('lastTo')} }
 );
 
+const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+`
+
+const ControllSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+`
+
+const ChunckSection = styled.section`
+  flex: 1;
+`
+
+
 export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className={s.container}>
-          <div className={s.controll}>
+        <AppWrapper>
+          <ControllSection>
             <TimePanel />
             <Controller />
-          </div>
-          <div className={s.chuncks}>
+          </ControllSection>
+          <ChunckSection>
             <ChunkContainer />
-          </div>
-        </div>
+          </ChunckSection>
+        </AppWrapper>
       </Provider>
     );
   }
