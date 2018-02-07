@@ -18,10 +18,11 @@ const store = configureStore(
 );
 
 const AppWrapper = styled.div`
+  width: 980px;
+  margin: auto;
   display: flex;
   flex-direction: row;
   height: 100%;
-  width: 100%;
 `
 
 const ControllSection = styled.section`
@@ -33,7 +34,6 @@ const ControllSection = styled.section`
 const ChunckSection = styled.section`
   flex: 1;
 `
-
 
 export default class App extends Component {
   render() {

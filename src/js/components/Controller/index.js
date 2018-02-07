@@ -119,14 +119,15 @@ class Controller extends Component {
     }
 
     handleComment(e) {
-        console.log(e.key);
-        console.log(e.ctrlKey);
+        console.log(this.input.selectionStart);
+        console.log(this.input.selectionEnd);
     }
 
     render(){
         return(
             <div className={s.container}>
                 <InputArea 
+                    innerRef={ el => this.input = el}
                     placeholder="e.g. unity 0.5 3 code stuff..."
                     value={this.state.value}
                     onChange={(e) => this.handleChange(e.target.value)}

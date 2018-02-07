@@ -7,6 +7,8 @@ import * as s from './chunck.scss';
 import styled from 'styled-components';
 import colors from '../../../constants/colors';
 
+import ValueIndicator from './Components/ValueIndicator';
+
 const Wrapper = styled.div`
     transition: background-color ease-out .2s;
     transition: height ease-out .3s;
@@ -26,40 +28,32 @@ const Container = styled.div`
     background-color: ${props => props.active ? 'crimson' : 'none'};
 `
 
+
+
 class Chunk extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            hover: false
-        }
     }
-    
-    onHover() {
-        this.setState(() => ({ hover: true }))
-    }
-
-    onUnhover() {
-        this.setState(() => ({ hover: false }))
-    }
+ 
     
     render() {
-        const { hover } = this.state;
         const { name, comment, value, id, active } = this.props;
         let { from, to } = this.props;
-        let amIActive = id === active;
+        let isActive = id === active;
         from = from.format('h:mm A');
         to = to.format('h:mm A');
         return(
             <Wrapper 
-                onMouseOver={() => this.onHover()}
-                onMouseLeave={() => this.onUnhover()}
-                active={ amIActive }>
+                active={ isActive }>
                 <Container>
-                    <div>{value}</div>
+                    <ValueIndicator
+                        isActive={isActive}
+                        value={value}>
+                    </ValueIndicator>
+
                     <div>{name}</div>
                     <div className={s.comment}> 
-                        {/* hide comment */}
-                        { hover || amIActive ? comment : '' }
+                        { comment }
                     </div>
                     <div className={s.fromTo}>
                         <div>{from}</div>
