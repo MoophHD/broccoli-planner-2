@@ -102,10 +102,13 @@ class ChunckContainer extends Component {
     }
 
     render() {
-        const { ids } = this.props;
+        let { ids, byid } = this.props;
+        //filter commented
+        let clearIds = ids.filter(id => !byid[id]._hidden )
+        const toRender =  clearIds.map((id, i) => (<Chunck id={id} key={`_chunck${id}${i}`}/>));
         return(
             <Container>
-                { ids.map((id, i) => (<Chunck id={id} key={`_chunck${id}${i}`}/>)) }
+                { toRender }
             </Container>
         )
     }

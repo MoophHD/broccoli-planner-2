@@ -6,15 +6,18 @@ import PropTypes from 'prop-types';
 import colors from '../../../../constants/colors';
 
 const Wrapper = styled.div`
-    background-color: ${colors.lightestgrey};
+    transition: all .2s ease-out;
     margin-left: auto;
-    width: 80px;
-    height: 60px;
+    width: 76px;
+    height: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     padding: 0 5px;
+    color: ${ props => props.isNegative ? colors.yellow : 'inherit'} }
+    border-bottom: 2px solid ${props => props.hasValue ? 'transparent' : colors.grey};
+    };
 `
 
 const Title = styled.span`
@@ -28,7 +31,9 @@ const SpareValue = styled.span`
 `
 
 const Spare = ({ spare }) => (
-    <Wrapper>
+    <Wrapper 
+        hasValue={ spare }
+        isNegative={ spare ? spare.indexOf('-') != -1 : false}>
         <Title>Spare</Title>
         <SpareValue>{ spare ? spare : '~'}</SpareValue>
     </Wrapper>

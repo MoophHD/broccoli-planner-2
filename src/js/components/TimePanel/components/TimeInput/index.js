@@ -40,7 +40,7 @@ class TimeInput extends Component {
                     {title}
                 </Title>
                 <Input
-                    placeholder={title == 'from' ? 'e.g. 3.50am' : 'e.g. 4.50am'}
+                    placeholder={title == 'From' ? 'e.g. 3.50am' : 'e.g. 4.50am'}
                     innerRef={ el => { if (el) this.input = el}} 
                     onChange={(e) => onChange(e.target.value)}
                     value={value}

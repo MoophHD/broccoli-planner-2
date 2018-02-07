@@ -63,6 +63,7 @@ class Controller extends Component {
 
         value = value.split('\n');
 
+        let isHidden;
 
         let line;
         for ( let i = 0; i < value.length; i++) {
@@ -71,6 +72,14 @@ class Controller extends Component {
             //line must contain 3 or more spaces ( name dur value description)
             //must contain all the elemenets of the pattern ^
             if (line.match(/\ /g) && line.match(/\ /g).length > 2){
+                // check if commented
+                if (line[0] == '/') {
+                    isHidden = true;
+                    //remove comment slash
+                    line = line.slice(1)
+                } else {
+                    isHidden = false;
+                }
 
                 line = line.split(' ');
                 
@@ -88,7 +97,8 @@ class Controller extends Component {
                     name: name[0],
                     dur: dur[0],
                     value: chunckValue[0],
-                    comment: comment
+                    comment: comment,
+                    _hidden: isHidden
                 }
 
                 tempId++;
@@ -108,13 +118,20 @@ class Controller extends Component {
         this.setState(() => ({value}), this.checkValue)
     }
 
+    handleComment(e) {
+        console.log(e.key);
+        console.log(e.ctrlKey);
+    }
+
     render(){
         return(
             <div className={s.container}>
                 <InputArea 
                     placeholder="e.g. unity 0.5 3 code stuff..."
                     value={this.state.value}
-                    onChange={(e) => this.handleChange(e.target.value)}/>
+                    onChange={(e) => this.handleChange(e.target.value)}
+                    onKeyDown={(e) => { if (e.ctrlKey && e.key == "/") this.handleComment(e)}}
+                    />
             </div>
         )
     }
