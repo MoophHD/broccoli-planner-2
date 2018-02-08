@@ -1,4 +1,5 @@
 {
+  "extends": "eslint:recommended",
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -9,7 +10,6 @@
     "es6": true,
     "classes": true
   },
-  "extends": "airbnb",
   "rules": {
     "space-before-function-paren": 0,
     "react/prefer-stateless-function": 0,
@@ -18,6 +18,15 @@
     "global-require": 0,
     "eol-last": 0,
     "comma-dangle": 0,
-    "spaced-comment": 0
+    "spaced-comment": 0,
+    "no-debugger": 0,
+    "no-console": 0,
+    "new-cap": 0,
+    "strict": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "react/jsx-no-undef": 1,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1
   }
 }

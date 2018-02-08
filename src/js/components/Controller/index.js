@@ -24,9 +24,6 @@ const InputArea = styled.textarea`
         box-shadow: 0 0 0px 1.5px ${colors.yellow};
     }
 `
-
-
-const initialId = 0;
 const reg = {
     name: /.+/,
     dur: /\d{1,2}(\.\d{1,2})?/g,
@@ -119,8 +116,59 @@ class Controller extends Component {
     }
 
     handleComment(e) {
-        console.log(this.input.selectionStart);
-        console.log(this.input.selectionEnd);
+        let shift = 0;
+        let start = this.input.selectionStart;
+        let finish = this.input.selectionEnd;
+        let value = this.state.value;
+
+        let linesToComment = this.getLines(value, start, finish);
+
+        value = value.split('\n').map((line, order) => {
+                //if is in the list
+            if (linesToComment.indexOf(order) != -1) {
+                    //toggle comment
+                if (line[0] == '/') {
+                    line = line.slice(1)
+                    shift--;
+                }
+                else {
+                    shift++;
+                    line = '/' + line
+                }
+            }
+
+            return line;
+        })
+
+        value = value.join("\n");
+        
+        this.setState(() => ({ value }), () => {
+            this.checkValue(); 
+            this.resetCursor(shift + start, shift + finish)});
+    }
+
+    resetCursor(start, finish) {
+        this.input.setSelectionRange(start, finish);
+    }
+
+    //returns array
+    getLines(str, start, finish) {
+        let lineBreak = /\n/g;
+        let endOfLine = /.$/gm;
+        let result = [];
+        
+        let preStart = str.slice(0, start);
+        let preStartLines = lineBreak.test(preStart) ? preStart.match(lineBreak).length : 0;
+        
+        let contentLines;
+        //one no letter select
+        if (start == finish) {
+            contentLines = 1;
+        } else {
+            contentLines = str.slice(start, finish).match(endOfLine).length;
+        }
+        
+        return Array.from(Array(contentLines).keys()).map((num) => (num + preStartLines))
     }
 
     render(){

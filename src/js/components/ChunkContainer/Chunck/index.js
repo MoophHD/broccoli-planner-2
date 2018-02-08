@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import * as s from './chunck.scss';
 import styled from 'styled-components';
 import colors from '../../../constants/colors';
 
@@ -16,20 +15,22 @@ const Wrapper = styled.div`
     background-color: ${props => props.active ? colors.yellow : colors.lightestgrey};
     color: ${props => props.active ? colors.white : colors.darkgrey};
     display: flex;
-    align-items: center;
 `
 
 const Container = styled.div`
     width: 100%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
     justify-content: space-around;
     padding: 7.5px;
-    background-color: ${props => props.active ? 'crimson' : 'none'};
 `
 
-
-
+const Description = styled.div`
+    flex-basis: 150px;
+    text-align: center;
+`
 class Chunk extends Component {
     constructor(props) {
         super(props);
@@ -52,10 +53,11 @@ class Chunk extends Component {
                     </ValueIndicator>
 
                     <div>{name}</div>
-                    <div className={s.comment}> 
+
+                    <Description> 
                         { comment }
-                    </div>
-                    <div className={s.fromTo}>
+                    </Description>
+                    <div>
                         <div>{from}</div>
                         <div>{to}</div>
                     </div>
