@@ -20,23 +20,55 @@ const Wrapper = styled.div`
 const Container = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: stretch;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
-    padding: 7.5px;
+    padding: 5px;
+    
+    > div:not(:last-child) {
+        border-right: 1px solid ${prosp => prosp.active ? colors.white : colors.green};
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+`
+
+const IndicatorContainer = styled.div`
+    padding-right: 5px;
+    width: 50px;
+`
+
+const Name = styled.div`
+    width: 75px;
+    font-size: 1.25em;
 `
 
 const Description = styled.div`
+    flex: 1;
     flex-basis: 150px;
-    text-align: center;
+    text-align: left;
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
 `
+
+const TimeBorders = styled.div`
+    width: 75px;
+    font-size: 0.9em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
 class Chunk extends Component {
     constructor(props) {
         super(props);
     }
  
-    
     render() {
         const { name, comment, value, id, active } = this.props;
         let { from, to } = this.props;
@@ -46,21 +78,26 @@ class Chunk extends Component {
         return(
             <Wrapper 
                 active={ isActive }>
-                <Container>
-                    <ValueIndicator
-                        isActive={isActive}
-                        value={value}>
-                    </ValueIndicator>
+                <Container active={isActive}>
+                    <IndicatorContainer >
+                        <ValueIndicator
+                            isActive={isActive}
+                            value={value} />
+                    </IndicatorContainer>
+                    
 
-                    <div>{name}</div>
+                    <Name>
+                        {name}
+                    </Name>
 
                     <Description> 
                         { comment }
                     </Description>
-                    <div>
+
+                    <TimeBorders>
                         <div>{from}</div>
                         <div>{to}</div>
-                    </div>
+                    </TimeBorders>
                 </Container>
             </Wrapper>
         )
