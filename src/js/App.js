@@ -28,7 +28,7 @@ const AppWrapper = styled.div`
 const ControllSection = styled.section`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 350px;
 `
 
 const ChunckSection = styled.section`

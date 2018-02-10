@@ -6,8 +6,13 @@ import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
 import * as s from './controller.scss';
 import styled from 'styled-components';
+import Lock from './components/Lock';
 
 import colors from '../../constants/colors';
+const Wrapper = styled.div`
+    flex: 1;
+    position: relative;
+`
 const InputArea = styled.textarea`
     background-color: ${colors.lightestgrey};
     font-size: 1.2em;
@@ -36,7 +41,8 @@ class Controller extends Component {
 
         // last cookies
         this.state = {
-            value: props.lastValue || ''
+            value: props.lastValue || '',
+            locked: false
         }
 
         this.oldByid = {}; 
@@ -171,17 +177,26 @@ class Controller extends Component {
         return Array.from(Array(contentLines).keys()).map((num) => (num + preStartLines))
     }
 
+    toggleLock() {
+        this.setState(() => ({locked: !this.state.locked}))
+    }
+
     render(){
+        const { locked, value } = this.state;
         return(
-            <div className={s.container}>
+            <Wrapper>
+                <Lock 
+                    onClick={() => this.toggleLock()}
+                    isLocked={locked}/>
                 <InputArea 
+                    readOnly={locked}
                     innerRef={ el => this.input = el}
                     placeholder="e.g. unity 0.5 3 code stuff..."
-                    value={this.state.value}
+                    value={value}
                     onChange={(e) => this.handleChange(e.target.value)}
                     onKeyDown={(e) => { if (e.ctrlKey && e.key == "/") this.handleComment(e)}}
                     />
-            </div>
+            </Wrapper>
         )
     }
 }

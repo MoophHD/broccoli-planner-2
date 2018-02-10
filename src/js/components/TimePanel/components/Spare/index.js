@@ -15,7 +15,6 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: space-around;
     padding: 0 5px;
-    color: ${ props => props.isNegative ? colors.yellow : 'inherit'} }
     border-bottom: 2px solid ${props => props.hasValue ? 'transparent' : colors.grey};
     };
 `
@@ -23,7 +22,6 @@ const Wrapper = styled.div`
 const Title = styled.span`
     display: block;
     font-weight: bold;
-    margin-right: auto;
 `
 
 const SpareValue = styled.span`
@@ -32,8 +30,7 @@ const SpareValue = styled.span`
 
 const Spare = ({ spare }) => (
     <Wrapper 
-        hasValue={ spare }
-        isNegative={ spare ? spare.indexOf('-') != -1 : false}>
+        hasValue={ spare }>
         <Title>Spare</Title>
         <SpareValue>{ spare ? spare : '~'}</SpareValue>
     </Wrapper>

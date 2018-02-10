@@ -56,7 +56,7 @@ const Description = styled.div`
 
 const TimeBorders = styled.div`
     width: 75px;
-    font-size: 0.9em;
+    font-size: 0.85em;
     height: 100%;
     display: flex;
     flex-direction: column;
