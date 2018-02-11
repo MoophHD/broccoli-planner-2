@@ -42,6 +42,9 @@ const IndicatorContainer = styled.div`
 const Name = styled.div`
     width: 75px;
     font-size: 1.25em;
+    > span {
+        margin-bottom: 5px;
+    }
 `
 
 const Description = styled.div`
@@ -87,11 +90,11 @@ class Chunk extends Component {
                     
 
                     <Name>
-                        {name}
+                        <span>{name}</span>
                     </Name>
 
                     <Description> 
-                        { comment }
+                        <span>{comment}</span>
                     </Description>
 
                     <TimeBorders>

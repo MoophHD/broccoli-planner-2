@@ -9,11 +9,11 @@ const Wrapper = styled.div`
     transition: all .2s ease-out;
     margin-left: auto;
     width: 76px;
-    height: 50px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 0 5px;
     border-bottom: 2px solid ${props => props.hasValue ? 'transparent' : colors.grey};
     };
