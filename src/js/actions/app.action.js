@@ -2,7 +2,8 @@ import {
   REBUILD_CHUNCKS,
   SET_FROM_TIME,
   SET_TO_TIME,
-  SET_CURRENT} from '../constants/app.constant';
+  SET_CURRENT,
+  CLEAR_CURRENT} from '../constants/app.constant';
 
 export function rebuildChuncks(ids, byid) {
   return {
@@ -33,3 +34,8 @@ export function setCurrent(id) {
   };
 }
 
+export function clearCurrent() {
+  return {
+    type: CLEAR_CURRENT
+  }
+}

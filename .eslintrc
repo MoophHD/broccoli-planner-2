@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "plugins": [
     "react"
@@ -16,10 +17,15 @@
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "eol-last": 0,
-    "quotes": [2, "single"],
-    "jsx-quotes": [1, "prefer-single"],
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
   }
 }

@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import lockIcon from './img/lock.png';
 import colors from '../../../../constants/colors'
 
 const { yellow, darkgrey } = colors;
@@ -20,5 +19,10 @@ const Lock = ({ isLocked, onClick }) => (
             <i className={`fas fa-${isLocked ? 'unlock' : 'lock'}`}></i>
         </LockWrapper>
 )
+
+Lock.PropTypes = {
+    isLocked: PropTypes.bool,
+    onClick: PropTypes.func
+}
 
 export default Lock;

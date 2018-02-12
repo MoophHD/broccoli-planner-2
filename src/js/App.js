@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {Provider} from 'react-redux';
 import configureStore from './store';
-import * as s from '../scss/app';
+import '../scss/app';
 import Controller from './components/Controller';
 import TimePanel from './components/TimePanel';
 import ChunkContainer from './components/ChunkContainer';
 import NotePanel from './components/NotePanel';
+import ClearButton from './components/ClearButton';
 
 import Cookies from 'js-cookie';
 import styled from 'styled-components';
@@ -48,6 +49,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
       <AppWrapper>
+        <ClearButton />
         <NotePanel/>
         <MainSection>
           

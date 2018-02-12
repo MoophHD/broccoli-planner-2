@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import * as actions from '../../actions/app.action';
 import * as memoryActions from '../../actions/memory.action';
 import PropTypes from 'prop-types';
-import * as s from './controller.scss';
 import styled from 'styled-components';
 import Lock from './components/Lock';
 
@@ -48,6 +47,19 @@ class Controller extends Component {
         this.oldByid = {}; 
     }
 
+    componentWillReceiveProps(newProps) {
+        //handle clear
+        if ( this.props.clearId != newProps.clearId ) {
+            this.clear();
+        }
+    }
+
+    clear() {
+        this.setState(() => ({ value: '' }), () =>{
+            this.oldByid = {}
+        })
+    }
+
     componentDidMount() {
         // update last cookies
         window.addEventListener('beforeunload', () => this.props.memoryActions.setValue(this.state.value));
@@ -72,9 +84,10 @@ class Controller extends Component {
         for ( let i = 0; i < value.length; i++) {
             line = value[i];
 
-            //line must contain 3 or more spaces ( name dur value description)
-            //must contain all the elemenets of the pattern ^
-            if (line.match(/\ /g) && line.match(/\ /g).length > 2){
+            //pattern ([name] [dur] | [value] [description])
+            //          necessary   |     optional
+            // at least one space
+            if (line.match(/\ /g) && line.match(/\ /g).length > 0){
                 // check if commented
                 if (line[0] == '/') {
                     isHidden = true;
@@ -88,8 +101,11 @@ class Controller extends Component {
                 
                 let name = line[0].match(reg.name);
                 let dur = line[1].match(reg.dur);
-                let chunckValue = line[2].match(reg.value);
-                let comment = line.slice(3).join(' ');
+                                    //given or 1
+                let chunckValue = line[2] ? line[2].match(reg.value) : [1];
+                                    //given or empty string
+                let comment = line[3] ? line.slice(3).join(' ') : '';
+
                 if (!name
                 || !dur
                 || !chunckValue
@@ -108,10 +124,11 @@ class Controller extends Component {
             }
         }
         
-        // diff checker
+        // difference checker
         if (JSON.stringify(this.oldByid) == JSON.stringify(byid)) {
             return;
         }
+
         this.oldByid = byid;
 
         rebuildChuncks(ids, byid);
@@ -121,7 +138,7 @@ class Controller extends Component {
         this.setState(() => ({value}), this.checkValue)
     }
 
-    handleComment(e) {
+    handleComment() {
         let shift = 0;
         let start = this.input.selectionStart;
         let finish = this.input.selectionEnd;
@@ -161,7 +178,6 @@ class Controller extends Component {
     getLines(str, start, finish) {
         let lineBreak = /\n/g;
         let endOfLine = /.$/gm;
-        let result = [];
         
         let preStart = str.slice(0, start);
         let preStartLines = lineBreak.test(preStart) ? preStart.match(lineBreak).length : 0;
@@ -189,6 +205,7 @@ class Controller extends Component {
                     onClick={() => this.toggleLock()}
                     isLocked={locked}/>
                 <InputArea 
+                    spellCheck={false}
                     readOnly={locked}
                     innerRef={ el => this.input = el}
                     placeholder="e.g. unity 0.5 3 code stuff..."
@@ -203,7 +220,8 @@ class Controller extends Component {
 
 function mapStateToProps(state) {
     return {
-        lastValue: state.memory.lastValue
+        lastValue: state.memory.lastValue,
+        clearId: state.app.clearId
     }
 }
   

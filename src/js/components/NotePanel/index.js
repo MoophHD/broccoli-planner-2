@@ -104,6 +104,7 @@ class NotePanel extends Component {
                 onClick={() => this.toggleActive()}
                 >
                 <Input 
+                    spellCheck={false}
                     onKeyDown={(e) => this.handleTab(e)}
                     onFocus={() => this.toggleFocus()}
                     onBlur={() => this.toggleFocus()}

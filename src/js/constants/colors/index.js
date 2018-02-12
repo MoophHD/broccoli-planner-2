@@ -1,4 +1,5 @@
-const colors = {
+
+export default {
     green: '#003334',
     yellow: '#FFA500',
     lightgrey: '#C3C3C3',
@@ -8,5 +9,3 @@ const colors = {
     white: '#fff',
     crimson: 'crimson'
 }
-
-export default colors;

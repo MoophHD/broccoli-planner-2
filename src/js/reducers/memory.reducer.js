@@ -21,7 +21,6 @@ const expires = {
   notes: 5
 }
 
-let byid, ids;
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_NOTES: 

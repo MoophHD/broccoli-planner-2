@@ -3,19 +3,24 @@ import {
   REBUILD_CHUNCKS,
   SET_FROM_TIME,
   SET_TO_TIME,
-  SET_CURRENT } from '../constants/app.constant';
+  SET_CURRENT,
+  CLEAR_CURRENT } from '../constants/app.constant';
 
 const initialState = {
   active: -1,
   from: '',
   to: '',
   ids: [],
-  byid: {}
+  byid: {},
+  clearId: 0
 };
 
 let byid, ids, spare;
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_CURRENT: {
+      return { ...initialState, clearId: state.clearId+1 }
+    }
     case SET_CURRENT:
       return { ...state, active: action.payload }
     case SET_FROM_TIME: 
@@ -58,7 +63,6 @@ function rebuildChuncks(ids, byid, from, to) {
     ids.forEach((id) => {
       let chunck = byid[id];
       let dur = chunck.dur;
-      let name = chunck.name;
 
       // two digits == minutes, one digit == part of hour
       if (/\.\d{2}/.test(dur)) {

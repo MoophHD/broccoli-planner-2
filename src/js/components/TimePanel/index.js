@@ -14,8 +14,8 @@ class TimePanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fromVal: props.lastCookiesFrom,
-            toVal: props.lastCookiesTo
+            fromVal: props.lastCookiesFrom || '',
+            toVal: props.lastCookiesTo || ''
         }
 
         //stringified moments
@@ -26,6 +26,19 @@ class TimePanel extends Component {
 
         this.handleFromSubmit = this.handleFromSubmit.bind(this);
         this.handleToSubmit = this.handleToSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(newProps) {
+        //handle clear
+        if ( this.props.clearId != newProps.clearId ) {
+            this.clear();
+        }
+    }
+
+    clear() {
+        this.setState(() => ({ fromVal: '', toVal: '' }), () =>{
+            this.last = { from: '', to: '' }
+        })
     }
 
     componentDidMount() {
@@ -140,8 +153,6 @@ class TimePanel extends Component {
     }
 
     render() {
-        const { stateFrom, stateTo } = this.props;
-
         return(
             <div className={s.container}>
                 <TimeInput 
@@ -173,7 +184,8 @@ function mapStateToProps(state) {
         lastCookiesFrom: memory.lastFrom,
         lastCookiesTo: memory.lastTo,
         stateFrom: app.from,
-        stateTo: app.to
+        stateTo: app.to,
+        clearId: app.clearId
     }
 }
   
@@ -186,7 +198,8 @@ function mapDispatchToProps(dispatch) {
 
 TimePanel.PropTypes = {
     lastCookiesFrom: PropTypes.string,
-    lastCookiesTo: PropTypes.string
+    lastCookiesTo: PropTypes.string,
+    clearId: PropTypes.number
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimePanel);
