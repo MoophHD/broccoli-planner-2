@@ -19,7 +19,6 @@ class ChunckContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.lastCheckAroundId;
         this.interval;
     }
 
@@ -29,52 +28,78 @@ class ChunckContainer extends Component {
 
         // has more than one elem
         if ( ids.length > 1 ) {
-            //check everything on new props
+            //check everything in new props
+            let hasActiveFlag = false;
             let id;
             for (let i = 0; i < ids.length; i++) {
                 id = ids[i];
                 // if finds one that will suffice : 
                 this.check(byid[id]).then((id) => {
-                    //if the same as current active
-                    if ( id == active ) return;
-                    
+                    hasActiveFlag = true;
                     this.setActive(id);
                 },
                 () => {}
             )
             }
+            //sync
+            setTimeout(() => {
+                //if hasn't found any active but reducer contains one
+                if (!hasActiveFlag && active != -1) {
+                    this.setActive(-1);
+                    return;
+                }
+            }, 0);
+   
         }
-
         /* 
             if the only or 
             active id is missing being not undefined
         */
-        if ( ids.length == 1 || (ids.indexOf(active) == -1 && active != -1) ) {
-            //check the 1st
-            checkAround = byid[ids[0]];
-        } else if ( active === ids.slice(-1)[0] ) {
-            // if last check last
-            checkAround = byid[active];
-        } else if ( active !== ids.slice(-1)[0] && active != -1 ) {
-            //if not last nor first and not undefined => check the next
-            checkAround = byid[active + 1];
+        //active is still undefined after global check
+        let firstChunck = byid[ids[0]];
+        let lastChunck = byid[ids[ids.length-1]];
+
+        if (active == -1) {
+            let now = moment();
+            if (ids.length == 1 || now.isBefore(firstChunck.from)) {
+                //check first
+                checkAround = firstChunck;
+            } else if (now.isAfter(lastChunck.to)) {
+                //check last
+                checkAround = firstChunck;
+            } 
+        } else {
+            if (active === ids.slice(-1)[0]) {
+                //check last
+                checkAround = lastChunck;
+            } else {
+                //check next
+                checkAround = byid[active + 1];
+            }
         }
-
+        // if ( ids.length == 1 || (ids.indexOf(active) == -1 && active != -1) ) {
+        //     //check the 1st
+        //     checkAround = byid[ids[0]];
+        // } else if ( active === ids.slice(-1)[0] ) {
+        //     // if last check last
+        //     checkAround = byid[active];
+        // } else if ( active !== ids.slice(-1)[0] && active != -1 ) {
+        //     //if not last nor first and not undefined => check the next
+        // }
+        // console.log(checkAround);
         if (!checkAround) return;
-
-
-        //is undefined or the same as current checkaround
-        if (!checkAround || this.lastCheckAroundId == checkAround._id) return;
-        this.lastCheckAroundId = checkAround._id;
-
+        // console.log(`checkAround ${checkAround._id}`);
+        // console.log('checking');
         if (this.interval) clearInterval(this.interval);
+
         this.interval = setInterval(
             () => this.check(checkAround)
             // on res > fire setActive
             // on rej  > set inactive
             // on pass > keep checking
             .then(
-                (id) => { this.setActive(id); },
+                (id) => {  this.setActive(id); }
+                ,
                 () => { this.setActive(-1); }
             ),
             CHECK_DELTA)
@@ -96,6 +121,7 @@ class ChunckContainer extends Component {
     }
 
     setActive(id) {
+        // console.log('setActive id ' + id)
         if ( id == this.props.active) return;
 
         this.props.actions.setCurrent(id);
