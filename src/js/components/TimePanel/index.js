@@ -110,11 +110,6 @@ class TimePanel extends Component {
 
         let momentFrom = this.buildMoment(from);
         
-        if (JSON.stringify(momentFrom) == this.last.from) return;
-
-        this.last.from = JSON.stringify(momentFrom);
-        
-
         //format current time
         this.setState(() => ({ fromVal: momentFrom && momentFrom.format(format) }))
 
@@ -131,12 +126,7 @@ class TimePanel extends Component {
 
         let to = this.state.toVal;
 
-
         let momentTo = this.buildMoment(to);
-
-        if (JSON.stringify(momentTo) == this.last.to) return;
-        
-        this.last.to = JSON.stringify(momentTo);
         
         //format current time
         this.setState(() => ({ toVal: momentTo && momentTo.format(format) }))
